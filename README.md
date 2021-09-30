@@ -4,8 +4,11 @@
 
 git clone https://github.com/daidh152001/AI-Virtual-Assistant.git
 cd .\AI-Virtual-Assistant\
+
 git checkout -b daidh152001
+
 git push --set-upstream origin daidh152001
+
 git branch: kiểm tra mình đang ở branch nào trước khi code.
 2. Kéo code
 
