@@ -3,6 +3,7 @@
 1. Set-up project
 
 git clone https://github.com/daidh152001/AI-Virtual-Assistant.git
+
 cd .\AI-Virtual-Assistant\
 
 git checkout -b daidh152001
