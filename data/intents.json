@@ -1,0 +1,80 @@
+{"intents": [
+	{
+	"tag": "greeting",
+	 "patterns": ["Hi", "Hello", "Hi there","Good morning!", "Good afternoon!", "Good evening", "hey", "is anyone there?"],
+	 "responses": ["Hi! How can I help you?", "Good to see you", "Hello, thanks for asking"],
+	 "context":[""]		
+	},
+
+	{
+	"tag": "name",
+	"patterns": ["who are you?", "what's your name?", "Tell me your name", "How do I call you?", "your name is?"],
+	"response": ["I'm Miraculous!", "Call me Miraculous!", "Hi, I'm Miraculous!"],
+	"context": [""]
+	},
+	
+	{
+	"tag": "tasks",
+	"patterns": ["What can you do?", "How can you help me?", "Things you can do?", "Introduce yourself"],
+	"response": ["I'm a chatbot here to help you open apps, web browser, answer questions. Ask me anything!", 
+			"I can help you launch apps in your computer, web browser, answer questions about time and weather, and calculate."],
+	"context": [""]
+	},
+	
+	{
+	"tag": "good_bye",
+	"patterns": ["Bye", "Good bye", "Till next time", "Nice chatting to you.", "Ok", "I'm leaving", "No more questions", "see ya", "i'm done"],
+	"response": ["Bye, see you soon", "See you!", "Have a nice day!"],
+	"context": [""]
+	},
+
+	{
+	"tag": "thank_you",
+	"patterns": ["Thanks", "Tks", "That's helpful", "thanks for helping", "thank you"],
+	"response": ["My pleasure!", "Any time!", "Glad to help you!"]
+	},
+
+	{
+	"tag": "open_apps",
+	"patterns": ["Open .*", "Go to .*", "Launch .*", "Run .*", ".*" , "can you open .* for me", "I want to open .*"],
+	"response": ["I'll open.. .*", ".* is opened"],
+	"context":[""]
+	},
+	
+	{
+	"tag": "web_browser",
+	"patterns":["google", "internet", "web browser", "web site"],
+	"response": ["I opened it for you"],
+	"context": [""]
+	},
+
+	{
+	"tag": "search_info",
+	"patterns":  ["Do you know anything about .*", "Who is .*", "what is .*", "where .*", "how to .*", "define .*", "definition of .*", "search for .*"],
+	"response": ["I found this for you", "Here's what I found", "I pulled it up for you"],
+	"context": [""]
+	},
+
+	{
+	"tag": "time_asking",
+	"patterns": ["what time is it?", "time in .*", "what's today date?"],
+	"response": ["It's "],
+	"context":[""]
+	},
+
+	{
+	"tag": "weather_asking",
+	"patterns": ["weather", "what's weather like today", "what's the condition outside", "did you see the weather forecast", "how is the weather",
+			"is it sunny outside", "is is raining", "what is the temperature", "I want to go outside", "tell me something about the weather conditions"]	,
+	"response": ["It is ", "The weather is supposed to be ", "I heard ", "Let me find out"],
+	"context": [""]
+	}, 
+
+	{
+	"tag": "calculating",
+	"patterns": ["+|plus|add", "-|minus|subtract", "*|multiply|times", "/|divide|over", "power|^"] ,
+	"response": ["The result is "],
+	"context": [""]
+	}		
+]
+}
