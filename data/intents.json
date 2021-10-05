@@ -42,7 +42,7 @@
 	},
 	
 	{
-	"tag": "web_browser"
+	"tag": "web_browser",
 	"patterns":["google", "internet", "web browser", "web site"],
 	"response": ["I opened it for you"],
 	"context": [""]
@@ -63,7 +63,7 @@
 	},
 
 	{
-	"tag": "weather_asking"
+	"tag": "weather_asking",
 	"patterns": ["weather", "what's weather like today", "what's the condition outside", "did you see the weather forecast", "how is the weather",
 			"is it sunny outside", "is is raining", "what is the temperature", "I want to go outside", "tell me something about the weather conditions"],	
 	"response": ["It is ", "The weather is supposed to be ", "I heard ", "Let me find out"],
