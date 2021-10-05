@@ -31,18 +31,18 @@
 	{
 	"tag": "thank_you",
 	"patterns": ["Thanks", "Tks", "That's helpful", "thanks for helping", "thank you"],
-	"response": ["My pleasure!", "Any time!", "Glad to help you!"]
+	"response": ["My pleasure!", "Any time!", "Glad to help you!"],
 	},
 
 	{
 	"tag": "open_apps",
-	"patterns": ["Open .*", "Go to .*", "Launch .*", "Run .*", ".*" , "can you open .* for me", "I want to open .*"],
+	"patterns": ["Open (.*)", "Go to (.*)", "Launch (.*)", "Run (.*)", "(.*)" , "can you open (.*) for me", "I want to open (.*)"],
 	"response": ["I'll open.. .*", ".* is opened"],
 	"context":[""]
 	},
 	
 	{
-	"tag": "web_browser",
+	"tag": "web_browser"
 	"patterns":["google", "internet", "web browser", "web site"],
 	"response": ["I opened it for you"],
 	"context": [""]
@@ -50,22 +50,22 @@
 
 	{
 	"tag": "search_info",
-	"patterns":  ["Do you know anything about .*", "Who is .*", "what is .*", "where .*", "how to .*", "define .*", "definition of .*", "search for .*"],
+	"patterns":  ["Do you know anything about (.*)", "Who is (.*)", "what is (.*)", "where (.*)", "how to (.*)", "define (.*)", "definition of (.*)", "search for (.*)"],
 	"response": ["I found this for you", "Here's what I found", "I pulled it up for you"],
 	"context": [""]
 	},
 
 	{
 	"tag": "time_asking",
-	"patterns": ["what time is it?", "time in .*", "what's today date?"],
+	"patterns": ["what time is it?", "time in (.*)", "what's today date?"],
 	"response": ["It's "],
 	"context":[""]
 	},
 
 	{
-	"tag": "weather_asking",
+	"tag": "weather_asking"
 	"patterns": ["weather", "what's weather like today", "what's the condition outside", "did you see the weather forecast", "how is the weather",
-			"is it sunny outside", "is is raining", "what is the temperature", "I want to go outside", "tell me something about the weather conditions"]	,
+			"is it sunny outside", "is is raining", "what is the temperature", "I want to go outside", "tell me something about the weather conditions"],	
 	"response": ["It is ", "The weather is supposed to be ", "I heard ", "Let me find out"],
 	"context": [""]
 	}, 
