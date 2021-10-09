@@ -23,35 +23,35 @@
 	
 	{
 	"tag": "good_bye",
-	"patterns": ["Bye", "Good bye", "Till next time", "Nice chatting to you.", "Ok", "I'm leaving", "No more questions", "see ya", "i'm done"],
+	"patterns": ["Bye", "Good bye", "Till next time", "Nice chatting to you.", "I'm leaving", "No more questions", "see ya", "i'm done"],
 	"responses": ["Bye, see you soon", "See you!", "Have a nice day!"],
 	"context": [""]
 	},
 
 	{
 	"tag": "thank_you",
-	"patterns": ["Thanks", "Tks", "That's helpful", "thanks for helping", "thank you"],
+	"patterns": ["Thanks", "Tks", "That's helpful", "thanks for helping", "thank you", "okay", "ok"],
 	"responses": ["My pleasure!", "Any time!", "Glad to help you!"],
 	"context": [""]
 	},
 
 	{
 	"tag": "open_apps",
-	"patterns": ["Open (.*)", "Go to (.*)", "Launch (.*)", "Run (.*)", "(.*)" , "can you open (.*) for me", "I want to open (.*)"],
+	"patterns": ["Open (.*)", "Go to (.*)", "Launch (.*)", "Run (.*)", "(.*)" , "can you open (.*) for me", "I want to open (.*)", "open (.*) for me"],
 	"responses": ["I'll open.. .*", ".* is opened"],
 	"context":[""]
 	},
 	
 	{
 	"tag": "web_browser",
-	"patterns":["google", "internet", "web browser", "web site"],
+	"patterns":["i want to open google", "go to google", "internet", "web browser", "website"],
 	"responses": ["I opened it for you"],
 	"context": [""]
 	},
 
 	{
 	"tag": "search_info",
-	"patterns":  ["Do you know anything about (.*)", "Who is (.*)", "what is (.*)", "where (.*)", "how to (.*)", "define (.*)", "definition of (.*)", "search for (.*)"],
+	"patterns":  ["Tell me something about (.*)", "Who is (.*)", "what is (.*)", "where (.*)", "how to (.*)", "define (.*)", "definition of (.*)", "search for (.*)"],
 	"responses": ["I found this for you", "Here's what I found", "I pulled it up for you"],
 	"context": [""]
 	},
@@ -69,13 +69,6 @@
 			"is it sunny outside", "is is raining", "what is the temperature", "I want to go outside", "tell me something about the weather conditions"],	
 	"responses": ["It is ", "The weather is supposed to be ", "I heard ", "Let me find out"],
 	"context": [""]
-	}, 
-
-	{
-	"tag": "calculating",
-	"patterns": ["+|plus|add", "-|minus|subtract", "*|multiply|times", "/|divide|over", "power|^"] ,
-	"responses": ["The result is "],
-	"context": [""]
-	}		
+	}	
 ]
 }
