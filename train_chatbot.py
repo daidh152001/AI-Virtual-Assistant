@@ -1,5 +1,7 @@
 import nltk
 nltk.download("stopwords")
+nltk.download('punkt')
+nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 import json
@@ -23,7 +25,7 @@ intents = json.loads(data_file)
 
 # Tokenize words into word_list (from patterns), classes
 # Documents include [(word_in_pattern, tag)]
-nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
+# nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
 
 for intent in intents['intents']:
     for pattern in intent['patterns']:
