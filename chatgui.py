@@ -20,7 +20,6 @@ classes = pickle.load(open('classes.pkl', 'rb'))
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
-    # nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
     stop_words = set(stopwords.words("english"))
     sentence_words = nltk.word_tokenize(sentence)
     # stem each word - create short form for word

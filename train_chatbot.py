@@ -24,8 +24,6 @@ data_file = open('data/intents.json').read()
 intents = json.loads(data_file)
 
 # Tokenize words into word_list (from patterns), classes
-# Documents include [(word_in_pattern, tag)]
-# nlp = spacy.load("en_core_web_sm", disable=['parser', 'ner'])
 
 for intent in intents['intents']:
     for pattern in intent['patterns']:
@@ -50,10 +48,7 @@ for intent in intents['intents']:
 # lower case words and remove duplicates
 words = [w for w in words if w not in ignore_word and w not in stop_words]
 words = sorted(list(set(words)))
-# print(words)
-# print(len(documents), "documents", documents)
-# print(len(classes), "classes", classes)
-# print(len(words), "unique lemmatized words", words)
+
 
 # create a pickle file to store Python objects for later prediction purpose
 pickle.dump(words, open('words.pkl', 'wb'))
