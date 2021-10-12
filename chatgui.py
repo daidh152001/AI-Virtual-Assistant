@@ -2,7 +2,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import spacy
-
+import re
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
@@ -50,14 +50,13 @@ def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
     res = model.predict(np.array([p]))[0]
-    ERROR_THRESHOLD = 0.5
+    ERROR_THRESHOLD = 0.6
     results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     # sort by strength of probability
     results.sort(key=lambda x: x[1], reverse=True)
     return_list = []
     for r in results:
         return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
-
     print(return_list)
     return return_list
 
@@ -67,6 +66,7 @@ def getResponse(ints, intents_json):
     try:
         tag = ints[0]['intent']
         list_of_intents = intents_json['intents']
+
         for i in list_of_intents:
             if (i['tag'] == tag):
                 result = random.choice(i['responses'])
@@ -75,10 +75,63 @@ def getResponse(ints, intents_json):
         result = random.choice(intents_json['intents'][7]['responses'])
     return result
 
+def openApps(ints, message):
+    pattern = '(?:open|launch|run|go to) ([A-Za-z]*)'
+    phrase = re.search(pattern, message).group(1)
+    # phrase is name of the app --> run app 'phrase' here
+    # if found app, open app and res = getResponse(ints,intents)
+    # if not found, res = "Sorry, I can't find {} app.".format(phrase)
+    return res
+
+def searchInfo(ints, message):
+    # search and return summary information
+    # if found then res = getResponse(ints,intents)
+    # if not found then res = "Im sorry, but I can't help with that."
+    return res
+
+def webBrowser(ints):
+    # just open google
+    # res = getResponse(ints,intents)
+    return res
+
+def askTime(ints, message):
+    nlp = spacy.load('en_core_web_sm')
+    doc = nlp(message)
+    for ent in doc.ents:
+        location = ent.text
+        entity = ent.label_
+    if(entity == 'GPE'):
+        print()
+
+    else: # get time of current location
+        print()
+
+    res = getResponse(ints, intents)
+    return res
+
+def askWeather(ints, message):
+    nlp = spacy.load('en_core_web_sm')
+    doc = nlp(message)
+    for ent in doc.ents:
+        location = ent.text
+        entity = ent.label_
+    if (entity == 'GPE'):
+        print()
+    else: # current location
+        print()
+
+    res = getResponse(ints, intents)
+    return res
 
 def chatbot_response(msg):
     ints = predict_class(msg, model)
-    res = getResponse(ints, intents)
+    if ints[0]['intent'] in ['greeting', 'name', 'tasks', 'good_bye', 'thank_you']:
+        res = getResponse(ints, intents)
+    elif ints[0]['intent'] == 'open_apps':
+        res = openApps(ints, msg)
+    elif ints[0]['intent'] == 'web_browser':
+        res = webBrowser(ints, msg)
+        # viet tiep ho t nhe
     return res
 
 
