@@ -1,17 +1,25 @@
+import os
+import re
+from time import ctime
+
 import nltk
+import spacy
+import wikipedia
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-import spacy
-import re
+
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
-
+import webbrowser
+from selenium import webdriver
 from keras.models import load_model
 
 model = load_model('chatbot_model.h5')
 import json
 import random
+
+
 
 intents = json.loads(open('data/intents.json').read())
 words = pickle.load(open('words.pkl', 'rb'))
@@ -75,23 +83,37 @@ def getResponse(ints, intents_json):
         result = random.choice(intents_json['intents'][7]['responses'])
     return result
 
+
 def openApps(ints, message):
     pattern = '(?:open|launch|run|go to) ([A-Za-z]*)'
     phrase = re.search(pattern, message).group(1)
     # phrase is name of the app --> run app 'phrase' here
     # if found app, open app and res = getResponse(ints,intents)
+    if  
     # if not found, res = "Sorry, I can't find {} app.".format(phrase)
+    res = os.startfile('"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"')
     return res
 
-def searchInfo(ints, message):
+ def searchInfo(ints, message):
     # search and return summary information
     # if found then res = getResponse(ints,intents)
     # if not found then res = "Im sorry, but I can't help with that."
+    # search_term =
+
+    res = getResponse(ints,intents)
+    content = wikipedia.summary().split('\n')
+    search_for = message.split("find", 1)[1]
+    driver = webdriver.Chrome("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe")
+    driver.get("http://google.com.vn")
+    que = driver.find_element_by_xpath("//input[@name ='q']")
     return res
 
-def webBrowser(ints):
+def webBrowser(ints, message):
     # just open google
-    # res = getResponse(ints,intents)
+    search_for = message.split("find", 1)[1]
+    res = getResponse(ints,intents)
+    url = "http://www.google.com.vn"
+    res = webbrowser.open(url)
     return res
 
 def askTime(ints, message):
@@ -102,12 +124,17 @@ def askTime(ints, message):
         entity = ent.label_
     if(entity == 'GPE'):
         print()
-
     else: # get time of current location
-        print()
+        time = ctime().split(" ")[3].split(":")[0:2]
+        if time[0] == "00":
+            hours = '12'
+        else:
+            hours = time[0]
+        minutes = time[1]
+        time = hours + " hours and " + minutes + "minutes"
 
-    res = getResponse(ints, intents)
-    return res
+    time = getResponse(ints, intents)
+    return time
 
 def askWeather(ints, message):
     nlp = spacy.load('en_core_web_sm')
@@ -118,6 +145,7 @@ def askWeather(ints, message):
     if (entity == 'GPE'):
         print()
     else: # current location
+        # url = "https://www.google.com/search?sxsrf=ACYBGNSQwMLDByBwdVFIUCbQqya-ET7AAA%3A1578847393212&ei=oUwbXtbXDN-C4-EP-5u82AE&q=weather&oq=weather&gs_l=psy-ab.3..35i39i285i70i256j0i67l4j0i131i67j0i131j0i67l2j0.1630.4591..5475...1.2..2.322.1659.9j5j0j1......0....1..gws-wiz.....10..0i71j35i39j35i362i39._5eSPD47bv8&ved=0ahUKEwiWrJvwwP7mAhVfwTgGHfsNDxsQ4dUDCAs&uact=5"
         print()
 
     res = getResponse(ints, intents)
@@ -128,10 +156,12 @@ def chatbot_response(msg):
     if ints[0]['intent'] in ['greeting', 'name', 'tasks', 'good_bye', 'thank_you']:
         res = getResponse(ints, intents)
     elif ints[0]['intent'] == 'open_apps':
-        res = openApps(ints, msg)
+        res = openApps()
     elif ints[0]['intent'] == 'web_browser':
-        res = webBrowser(ints, msg)
+        res = webBrowser()
         # viet tiep ho t nhe
+    elif ints[0]['intent'] == 'time_asking':
+        res = askTime()
     return res
 
 
@@ -187,4 +217,7 @@ EntryBox.place(x=128, y=401, height=90, width=265)
 SendButton.place(x=6, y=401, height=90)
 
 base.mainloop()
+
+
+
 
