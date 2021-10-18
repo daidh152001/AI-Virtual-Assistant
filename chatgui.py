@@ -1,6 +1,8 @@
 import os
 import re
 from time import ctime
+from pytz import timezone
+from datetime import datetime
 
 import nltk
 import spacy
@@ -88,11 +90,18 @@ def openApps(ints, message):
     pattern = '(?:open|launch|run|go to) ([A-Za-z]*)'
     phrase = re.search(pattern, message).group(1)
     # phrase is name of the app --> run app 'phrase' here
+    path = os.getcwd()
+
+
+    for root, dirs, files in os.walk(path):
+        if phrase in files:
+            result = os.path.join(root, phrase)
+
     # if found app, open app and res = getResponse(ints,intents)
-    if  
+
     # if not found, res = "Sorry, I can't find {} app.".format(phrase)
-    res = os.startfile('"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"')
-    return res
+    res = os.startfile(result)
+    return result
 
  def searchInfo(ints, message):
     # search and return summary information
@@ -101,11 +110,10 @@ def openApps(ints, message):
     # search_term =
 
     res = getResponse(ints,intents)
-    content = wikipedia.summary().split('\n')
+    patern = intents.split('\n')
     search_for = message.split("find", 1)[1]
-    driver = webdriver.Chrome("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe")
-    driver.get("http://google.com.vn")
-    que = driver.find_element_by_xpath("//input[@name ='q']")
+    url = "https://google.com/search?q=" + patern
+    res = webbrowser.get().open(url)
     return res
 
 def webBrowser(ints, message):
@@ -123,7 +131,9 @@ def askTime(ints, message):
         location = ent.text
         entity = ent.label_
     if(entity == 'GPE'):
-        print()
+        time_zone = timezone('Africa/Johannesburg')
+        time = datetime.now(time_zone)
+        print(time.strftime('%Y-%m-%d_%H-%M-%S'))
     else: # get time of current location
         time = ctime().split(" ")[3].split(":")[0:2]
         if time[0] == "00":
@@ -144,6 +154,14 @@ def askWeather(ints, message):
         entity = ent.label_
     if (entity == 'GPE'):
         print()
+        # ow_url = "http://api.openweathermap.org/data/2.5/weather?"
+        #     city = get_text()
+        #     if not city:
+        #         pass
+        #     api_key = "fe8d8c65cf345889139d8e545f57819a"
+        #     call_url = ow_url + "appid=" + api_key + "&q=" + city + "&units=metric"
+        #     res = requests.get(call_url)
+
     else: # current location
         # url = "https://www.google.com/search?sxsrf=ACYBGNSQwMLDByBwdVFIUCbQqya-ET7AAA%3A1578847393212&ei=oUwbXtbXDN-C4-EP-5u82AE&q=weather&oq=weather&gs_l=psy-ab.3..35i39i285i70i256j0i67l4j0i131i67j0i131j0i67l2j0.1630.4591..5475...1.2..2.322.1659.9j5j0j1......0....1..gws-wiz.....10..0i71j35i39j35i362i39._5eSPD47bv8&ved=0ahUKEwiWrJvwwP7mAhVfwTgGHfsNDxsQ4dUDCAs&uact=5"
         print()
