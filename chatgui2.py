@@ -32,12 +32,10 @@ classes = pickle.load(open('classes.pkl', 'rb'))
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
-    stop_words = set(stopwords.words("english"))
     sentence_words = nltk.word_tokenize(sentence)
     # stem each word - create short form for word
     sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
 
-    # sentence_words = [word.lemma_ for word in nlp(sentence.lower()) if word not in stop_words]
     return sentence_words
 
 
@@ -63,7 +61,7 @@ def predict_class(sentence, model):
     p = bow(sentence, words, show_details=False)
     res = model.predict(np.array([p]))[0]
     print(classes)
-    ERROR_THRESHOLD = 0.6
+    ERROR_THRESHOLD = 0.5
     results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     # sort by strength of probability
     results.sort(key=lambda x: x[1], reverse=True)
@@ -106,8 +104,7 @@ def openApps(ints, message):
     apps = {"photo":"ms-photos:","camera": "microsoft.windows.camera:", "word": "winword", "powerpoint": "powerpnt", "paint":"mspaint", "calculator":"calc"}
     # phrase is name of the app --> run app 'phrase' here
     path = "C:\\"
-    # idea: tìm cách search tối ưu cho path.
-    # resize, train lai he thong
+
     if phrase in apps.keys():
         os.system('start {}'.format(apps[phrase]))
         res = getResponse(ints, intents).format(phrase)
@@ -139,7 +136,7 @@ def searchInfo(ints, message):
     result = []
     try:
         results = wikipedia.page(message)
-        result.append(getResponse(ints, intents) + "\n\n" + wikipedia.summary(message, sentences=3, auto_suggest=True, redirect=True)) 
+        result.append(getResponse(ints, intents) + "\n\n" + wikipedia.summary(message, sentences=3)) 
         result.append([results.url])    
         return result
     except:
@@ -264,7 +261,7 @@ def send():
                 link=res_link
                 ChatLog.insert(END, res_link + "\n\n", link)
                 ChatLog.tag_config(link, foreground="blue",underline=1)
-                ChatLog.tag_bind(link, "<Button-1>", lambda e, res_link=res_link : callback(res_link))
+                ChatLog.tag_bind(link, "<Button-1>", lambda e,res_link=res_link : callback(res_link))
         ChatLog.config(state=DISABLED)
         ChatLog.yview(END)
 
@@ -272,7 +269,7 @@ def send():
 base = Tk()
 base.title("Chatbot")
 base.geometry("600x600")
-base.resizable(width=TRUE, height=TRUE)
+base.resizable(width=FALSE, height=FALSE)
 
 # Create Chat window
 ChatLog = Text(base, bd=0, bg="white", height="20", width="100", font="Arial",wrap='word')
