@@ -7,11 +7,11 @@ from nltk.corpus import stopwords
 import json
 import pickle
 import numpy as np
-from keras.models import Sequential
-from keras.layers import Dense, Activation, Dropout
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Activation, Dropout
 from tensorflow.keras.optimizers import SGD
 import random
-import spacy
+import os
 
 # load data
 lemmatizer = WordNetLemmatizer()
@@ -27,12 +27,6 @@ intents = json.loads(data_file)
 
 for intent in intents['intents']:
     for pattern in intent['patterns']:
-        # w = [word.lemma_ for word in nlp(pattern.lower())]
-        # words.extend(w)
-        # documents.append((w, intent['tag']))
-        #
-        # if intent['tag'] not in classes:
-        #     classes.append(intent['tag'])
 
         # tokenize each word
         w = [lemmatizer.lemmatize((word)) for word in nltk.word_tokenize(pattern.lower())]
@@ -88,6 +82,6 @@ sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
 hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
-model.save('chatbot_model.h5', hist)
+model.save('chatbot_model.h5')
 
 print("model created")
