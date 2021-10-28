@@ -1,30 +1,23 @@
-import os, fnmatch
-import re
-from time import ctime
-from pytz import timezone
 import datetime
-import requests
+import fnmatch
+import os
+import re
 import nltk
+import requests
 import spacy
 import wikipedia
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
 import webbrowser
-from selenium import webdriver
-from keras.models import load_model
-
-model = load_model('chatbot_model.h5')
+import tensorflow.keras
 import json
 import random
-from newspaper import Article
 from googlesearch import search
-import subprocess
 
-
+model = tensorflow.keras.models.load_model(os.path.join('D:\\FA21\\AIP391\\New_Chatbot\\chatbot_model.h5'))
 intents = json.loads(open('data/intents.json').read())
 words = pickle.load(open('words.pkl', 'rb'))
 classes = pickle.load(open('classes.pkl', 'rb'))
@@ -32,10 +25,12 @@ classes = pickle.load(open('classes.pkl', 'rb'))
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
+    stop_words = set(stopwords.words("english"))
     sentence_words = nltk.word_tokenize(sentence)
     # stem each word - create short form for word
     sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
 
+    # sentence_words = [word.lemma_ for word in nlp(sentence.lower()) if word not in stop_words]
     return sentence_words
 
 
@@ -60,8 +55,7 @@ def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
     res = model.predict(np.array([p]))[0]
-    print(classes)
-    ERROR_THRESHOLD = 0.5
+    ERROR_THRESHOLD = 0.6
     results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     # sort by strength of probability
     results.sort(key=lambda x: x[1], reverse=True)
@@ -104,7 +98,8 @@ def openApps(ints, message):
     apps = {"photo":"ms-photos:","camera": "microsoft.windows.camera:", "word": "winword", "powerpoint": "powerpnt", "paint":"mspaint", "calculator":"calc"}
     # phrase is name of the app --> run app 'phrase' here
     path = "C:\\"
-
+    # idea: tìm cách search tối ưu cho path.
+    # resize, train lai he thong, loi nhieu link
     if phrase in apps.keys():
         os.system('start {}'.format(apps[phrase]))
         res = getResponse(ints, intents).format(phrase)
@@ -136,7 +131,7 @@ def searchInfo(ints, message):
     result = []
     try:
         results = wikipedia.page(message)
-        result.append(getResponse(ints, intents) + "\n\n" + wikipedia.summary(message, sentences=3)) 
+        result.append(getResponse(ints, intents) + "\n\n" + wikipedia.summary(message, sentences=3, auto_suggest=True, redirect=True)) 
         result.append([results.url])    
         return result
     except:
@@ -239,7 +234,6 @@ def chatbot_response(msg):
 
 
 # Creating GUI with tkinter
-import tkinter
 from tkinter import *
 
 def send():
