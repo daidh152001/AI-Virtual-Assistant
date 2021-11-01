@@ -2,13 +2,13 @@
 	{
 	"tag": "greeting",
 	 "patterns": ["Hi", "Hello", "Hi there","Good morning!", "Good afternoon!", "Good evening", "hey", "is anyone there?"],
-	 "responses": ["Hi! How can I help you?", "Good to see you", "Hello, thanks for asking"],
+	 "responses": ["Hi! How can I help you?", "Good to see you!", "Hello, thanks for asking!"],
 	 "context":[""]		
 	},
 
 	{
 	"tag": "name",
-	"patterns": ["who are you?", "what's your name?", "Tell me your name", "How do I call you?", "your name is?"],
+	"patterns": ["who are you?", "what's your name?", "Tell me your name", "What should I call you?", "your name is?"],
 	"responses": ["I'm Miraculous!", "Call me Miraculous!", "Hi, I'm Miraculous!"],
 	"context": [""]
 	},
@@ -17,7 +17,7 @@
 	"tag": "tasks",
 	"patterns": ["What can you do?", "How can you help me?", "Things you can do?", "Introduce yourself"],
 	"responses": ["I'm a chatbot here to help you open apps, web browser, answer questions. Ask me anything!", 
-			"I can help you launch apps in your computer, web browser, answer questions about time and weather, and calculate."],
+			"I can help you launch apps in your computer, web browser, answer questions about time and weather, and search for information."],
 	"context": [""]
 	},
 	
@@ -38,36 +38,36 @@
 	{
 	"tag": "open_apps",
 	"patterns": ["Open (.*)", "Go to (.*)", "Launch (.*)", "Run (.*)", "(.*)" , "can you open (.*) for me", "I want to open (.*)", "open (.*) for me"],
-	"responses": ["I'll open.. .*", ".* is opened"],
+	"responses": ["I'll open it for you!", "{} is opened!"],
 	"context":[""]
 	},
 	
 	{
 	"tag": "web_browser",
 	"patterns":["i want to open google", "go to google", "internet", "web browser", "website"],
-	"responses": ["I opened it for you"],
+	"responses": ["I opened it for you!"],
 	"context": [""]
 	},
 
 	{
 	"tag": "search_info",
 	"patterns":  ["Tell me something about (.*)", "Who is (.*)", "what is (.*)", "where (.*)", "how to (.*)", "define (.*)", "definition of (.*)", "search for (.*)"],
-	"responses": ["I found this for you", "Here's what I found", "I pulled it up for you"],
+	"responses": ["I found this for you!", "Here's what I found!", "I pulled it up for you!"],
 	"context": [""]
 	},
 
 	{
 	"tag": "time_asking",
-	"patterns": ["what time is it?", "time in (.*)", "what's today date?"],
-	"responses": ["It's "],
+	"patterns": ["what time is it?", "time in (.*)", "what's date?"],
+	"responses": ["It's {}.", "Current time is {}."],
 	"context":[""]
 	},
 
 	{
 	"tag": "weather_asking",
-	"patterns": ["weather", "what's weather like today", "what's the condition outside", "did you see the weather forecast", "how is the weather",
-			"is it sunny outside", "is is raining", "what is the temperature", "I want to go outside", "tell me something about the weather conditions"],	
-	"responses": ["It is ", "The weather is supposed to be ", "I heard ", "Let me find out"],
+	"patterns": ["weather", "what's weather like today", "what's the condition outside", "did you see the weather forecast", "how is the weather", "is it going to rain in (.*) ",
+			"is it sunny outside", "is is raining today?", "what is the temperature", "I want to go outside", "tell me something about the weather conditions"],	
+	"responses": ["Here's what I found!", "I found this for you!"],
 	"context": [""]
 	}	
 ]
