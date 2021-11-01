@@ -6,33 +6,32 @@ import nltk
 import requests
 import spacy
 import wikipedia
-from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
 import webbrowser
-import tensorflow.keras
+from tensorflow.keras.models import load_model
 import json
 import random
 from googlesearch import search
-
-model = tensorflow.keras.models.load_model(os.path.join('D:\\FA21\\AIP391\\New_Chatbot\\chatbot_model.h5'))
+import tensorflow as tf
+print(tf.__version__)
+model = load_model('chatbot_model.h5')
 intents = json.loads(open('data/intents.json').read())
 words = pickle.load(open('words.pkl', 'rb'))
 classes = pickle.load(open('classes.pkl', 'rb'))
 
+nlp = spacy.load('venv\\Lib\\site-packages\\en_core_web_sm\\en_core_web_sm-3.1.0')
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
-    stop_words = set(stopwords.words("english"))
     sentence_words = nltk.word_tokenize(sentence)
     # stem each word - create short form for word
     sentence_words = [lemmatizer.lemmatize(word.lower()) for word in sentence_words]
 
     # sentence_words = [word.lemma_ for word in nlp(sentence.lower()) if word not in stop_words]
     return sentence_words
-
 
 # return bag of words array: 0 or 1 for each word in the bag that exists in the sentence
 
@@ -94,17 +93,16 @@ def find(pattern, path):
 
 def openApps(ints, message):
     pattern = '(?:open|launch|run|go to) ([A-Za-z]*)'
-    phrase = re.search(pattern, message).group(1)
+    phrase = re.search(pattern, message.lower()).group(1)
     apps = {"photo":"ms-photos:","camera": "microsoft.windows.camera:", "word": "winword", "powerpoint": "powerpnt", "paint":"mspaint", "calculator":"calc"}
     # phrase is name of the app --> run app 'phrase' here
     path = "C:\\"
-    # idea: tìm cách search tối ưu cho path.
-    # resize, train lai he thong, loi nhieu link
+
     if phrase in apps.keys():
         os.system('start {}'.format(apps[phrase]))
         res = getResponse(ints, intents).format(phrase)
         return res
-    
+
     try:
         os.startfile('{}'.format(phrase))
         res = getResponse(ints, intents).format(phrase)
@@ -131,15 +129,15 @@ def searchInfo(ints, message):
     result = []
     try:
         results = wikipedia.page(message)
-        result.append(getResponse(ints, intents) + "\n\n" + wikipedia.summary(message, sentences=3, auto_suggest=True, redirect=True)) 
-        result.append([results.url])    
+        result.append(getResponse(ints, intents) + "\n\n" + wikipedia.summary(message, sentences=3, auto_suggest=True, redirect=True))
+        result.append([results.url])
         return result
     except:
         result.append(getResponse(ints, intents))
         res = []
         for link in search(message, start=0, stop=5):
             res.append(link)
-        
+
         result.append(res)
         return result
 
@@ -152,7 +150,7 @@ def webBrowser(ints, message):
     return res
 
 def askTime(ints, message):
-    nlp = spacy.load('en_core_web_sm')
+    # nlp = spacy.load('en_core_web_sm')
     doc = nlp(message)
     for ent in doc.ents:
         location = ent.text
@@ -165,8 +163,8 @@ def askTime(ints, message):
             call_url = ow_url + "appid=" + api_key + "&q=" + location + "&units=metric"
             res = requests.get(call_url)
             data = res.json()
-            if data["cod"] != "404":                   
-                tz = get_date(data['timezone'])                   
+            if data["cod"] != "404":
+                tz = get_date(data['timezone'])
                 content = "{tzone}".format(tzone = tz)
                 res = getResponse(ints, intents).format(content)
                 return res
@@ -174,7 +172,7 @@ def askTime(ints, message):
 
     now = datetime.datetime.now()
     date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
- 
+
     res = getResponse(ints, intents).format(date_time)
     return res
 
@@ -184,7 +182,7 @@ def get_date(timezone):
     return datetime.datetime.now(tz = tz).strftime("%m/%d/%Y, %H:%M:%S")
 
 def askWeather(ints, message):
-    nlp = spacy.load('en_core_web_sm')
+    # nlp = en_core_web_sm.load()
     doc = nlp(message)
     for ent in doc.ents:
         location = ent.text
@@ -207,7 +205,7 @@ def askWeather(ints, message):
                     wthr = data["weather"]
                     weather_description = wthr[0]["description"]
                     now = datetime.datetime.now()
-                    content = "Today is {day}th, {month}, {year}  \nAverage temperature is {temp}°C\nFeels like {feelslike}°C\nMin temperature is {min}°C\nMax temperature is {max}°C\nHumidity is {humidity}%\nDiscription: {des}".format(day = now.day,month = now.month, year= now.year, 
+                    content = "Today is {day}th, {month}, {year}  \nAverage temperature is {temp}°C\nFeels like {feelslike}°C\nMin temperature is {min}°C\nMax temperature is {max}°C\nHumidity is {humidity}%\nDiscription: {des}".format(day = now.day,month = now.month, year= now.year,
                                                                                     temp = current_temperature, feelslike=feels_like, min = min_temp, max = max_temp, humidity = current_humidity, des = weather_description)
                     return getResponse(ints, intents) + "\n\n" + content
 
