@@ -23,7 +23,8 @@ intents = json.loads(open('data/intents.json').read())
 words = pickle.load(open('words.pkl', 'rb'))
 classes = pickle.load(open('classes.pkl', 'rb'))
 
-nlp = spacy.load('venv\\Lib\\site-packages\\en_core_web_sm\\en_core_web_sm-3.1.0')
+# python -m spacy download en-core-web-sm
+nlp = spacy.load('en_core_web_sm')
 
 def clean_up_sentence(sentence):
     # tokenize the pattern - split words into array
